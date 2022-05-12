@@ -2,11 +2,11 @@ import "./App.css";
 import { useState } from "react";
 import { ethers } from "ethers";
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
-import Token from "./artifacts/contracts/PreworkToken.sol/Token.json";
+import PreWorkToken from "./artifacts/contracts/PreworkToken.sol/PreWorkToken.json";
 
 // Update with the contract address logged out to the CLI when it was deployed
-const greeterAddress = "0xc00598Bf0ed5F3B32ae9B63A15eD5DBE5F2E87C8";
-const tokenAddress = "0xC0d4cc23757Ca89F7a9dA31EAdaFcDF753Bdc33b";
+const greeterAddress = "0xe836D1d8A049945303EBc6Dbe5A48C275bdC9B29";
+const tokenAddress = "0x37808F8B5Cb298A95C4eEcD837DCe813345f73Db";
 
 function App() {
   // store greeting in local state
@@ -60,7 +60,11 @@ function App() {
       await requestAccount();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const contract = new ethers.Contract(tokenAddress, Token.abi, signer);
+      const contract = new ethers.Contract(
+        tokenAddress,
+        PreWorkToken.abi,
+        signer
+      );
       const transaction = await contract.transfer(targetAddr, transferValue);
       await transaction.wait();
       console.log(`${transferValue} Coins successfully sent to ${targetAddr}`);
@@ -72,7 +76,11 @@ function App() {
     if (!targetAddr) return;
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(tokenAddress, Token.abi, provider);
+      const contract = new ethers.Contract(
+        tokenAddress,
+        PreWorkToken.abi,
+        provider
+      );
       const balance = await contract.balanceOf(targetAddr);
       console.log(`Balance of ${targetAddr} is ${balance.toString()}`);
     }
